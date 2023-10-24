@@ -9,7 +9,7 @@ import java.io.IOException;
 public class MovieprojectApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppApplication.class, args);
+        SpringApplication.run(MovieprojectApplication.class, args);
     }
 	
 
