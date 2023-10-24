@@ -8,8 +8,9 @@ import java.io.IOException;
 @SpringBootApplication
 public class MovieprojectApplication {
 
-	public static void main(String[] args) {
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AppApplication.class, args);
+    }
 	
 
 }
