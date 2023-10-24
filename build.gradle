@@ -67,3 +67,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	mainClassName = 'com.example.demo.MovieprojectApplication'
+}
