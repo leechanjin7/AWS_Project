@@ -5,7 +5,7 @@
     <!-- 날짜 조회 -->
     <select id="findTotalSeats" resultType="int">
         SELECT TOTALSEATS
-        FROM TBL_THEATER
+        FROM tbl_theater
         WHERE THEATERID = #{theaterId}
     </select>
 

@@ -5,7 +5,7 @@
     <!-- age별 가격정보 조회 -->
     <select id="getPriceByAge" resultType="com.example.demo.domain.dto.PriceDTO">
         SELECT *
-        FROM TBL_PRICE
+        FROM tbl_price
         WHERE AGE = #{age}
     </select>
 </mapper>

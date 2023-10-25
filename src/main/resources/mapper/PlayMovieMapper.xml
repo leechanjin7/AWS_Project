@@ -5,13 +5,13 @@
     <!-- 상영 영화 조회(썸넬 포함) -->
     <select id="selectPlayMovie" resultType="com.example.demo.domain.dto.PlayMovieDTO">
         SELECT PLAYMOVIE, IMGLINK
-        FROM TBL_PLAYMOVIE
+        FROM tbl_playmovie
     </select>
 
     <!-- 날짜 조회 -->
     <select id="findDateTime" resultType="Date" >
         SELECT endDate
-        FROM TBL_PLAYMOVIE
+        FROM tbl_playmovie
         WHERE PLAYMOVIE = #{playmovie}
     </select>
 

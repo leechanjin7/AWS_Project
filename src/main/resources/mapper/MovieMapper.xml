@@ -11,12 +11,12 @@
     <!-- 영화 전체 조회 -->
     <select id="selectAll" resultType="int">
         SELECT MOVIEID, MOVIENAME, MOVIERELEASE, MOVIERATING, MOVIETYPE, MOVIEINFO
-        FROM TBL_MOVIE
+        FROM tbl_movie
     </select>
 
     <!-- 영화 목록  -->
     <select id="getList" resultType="com.example.demo.domain.dto.MovieDTO">
-        SELECT * FROM TBL_MOVIE
+        SELECT * FROM tbl_movie
         <include refid="search"/>
         ORDER BY MOVIEID ASC
         LIMIT #{cri.skip}, #{cri.amount}
@@ -25,7 +25,7 @@
     <!-- 영화 목록(페이징)   -->
     <select id="getListPaging" resultType="com.example.demo.domain.dto.MovieDTO">
         SELECT MOVIEID, MOVIENAME, MOVIERELEASE, MOVIERATING, MOVIETYPE, MOVIEINFO
-        FROM TBL_MOVIE
+        FROM tbl_movie
         ORDER BY
         MOVIEID ASC
         LIMIT #{skip}, #{amount}
@@ -33,7 +33,7 @@
 
     <!-- 영화 총 갯수   -->
     <select id="getTotal" resultType="int">
-        SELECT COUNT(*) FROM TBL_MOVIE
+        SELECT COUNT(*) FROM tbl_movie
     </select>
 
     <!-- 영화 카테고리 검색 -->
@@ -60,7 +60,7 @@
 
 
     <select id="searchCountAll" resultType="int">
-        SELECT COUNT(MOVIEID) FROM TBL_MOVIE
+        SELECT COUNT(MOVIEID) FROM tbl_movie
         <include refid="search"/>
     </select>
 
