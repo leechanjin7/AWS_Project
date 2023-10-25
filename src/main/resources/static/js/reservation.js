@@ -69,10 +69,6 @@ function updateMovieName() {
     }
 }
 
-//영화관 정보 저장해두기
-function selectMovie(theaterName) {
-	localStorage.setItem('selectedTheater', theaterName);
-}
 
 //캘린더 위젯 적용
 $(function(){
@@ -126,7 +122,7 @@ $(document).ready(function() {
     // 관람일 입력 필드에 변화가 생겼을 때 실행될 함수
     $("input[name='publeYear']").change(function() {
         // 영화관 이름과 관람일이 모두 선택되었는지 확인
-        var theaterName = localStorage.getItem('selectedTheater');
+        var theaterName = $('button[data-hidden-value].theater-active').attr('data-hidden-value');
         var publeYear = $("input[name='publeYear']").val();
         console.log("확인확인",theaterName);
         console.log("확인확인", publeYear);
