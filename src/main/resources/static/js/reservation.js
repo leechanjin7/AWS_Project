@@ -46,7 +46,7 @@ function setTheater(button) {
 // '영화관 선택' 버튼 클릭 시 실행되는 함수
 function openPopup () {
   const options = 'width=700, height=600, top=50, left=50, scrollbars=yes'
-  var popupWindow = window.open('movies/rating','_blank',options);
+  var popupWindow = window.open('/movies/rating','_blank',options);
 
   // 팝업 창이 닫힐 때 실행될 함수 설정
   var timer = setInterval(function() {
