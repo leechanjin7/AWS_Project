@@ -201,7 +201,7 @@ $.ajax({
         var theaterPlayMovieId = localStorage.getItem('theaterPlayMovieId');
 
             $.ajax({
-                url: '/reserve/' + theaterPlayMovieId,
+                url: 'reserve/' + theaterPlayMovieId,
                 type: 'GET',
                 success: function(reservedSeats) {
                     reservedSeats = reservedSeats[0].split(', ');  // 추가된 코드
