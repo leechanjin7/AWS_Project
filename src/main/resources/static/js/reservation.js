@@ -61,8 +61,6 @@ function openPopup () {
 function updateMovieName() {
     var selectedMovie = localStorage.getItem('selectedMovie');
     var selectedImage = localStorage.getItem('selectedImage');
-    console.log("확인 ", selectedMovie);
-    console.log("확인 ", selectedImage);
     if (selectedMovie) {
         document.querySelector('.ticket-movie .movie-name').innerText = selectedMovie;
     }
