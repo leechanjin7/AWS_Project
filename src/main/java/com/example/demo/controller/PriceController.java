@@ -24,7 +24,7 @@ public class PriceController {
         String age = payload.get("age");
 
         // Validate age
-        if (!(age.equals("어린이") || age.equals("청소년") || age.equals("어른"))) {
+        if (!(age.equals("어린이") || age.equals("청소년") || age.equals("성인"))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Invalid age value: " + age));
         }
 

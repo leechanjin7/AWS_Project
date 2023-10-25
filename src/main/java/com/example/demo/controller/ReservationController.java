@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.dto.MemberDTO;
 import com.example.demo.domain.dto.TheaterPlayMovieDTO;
 import com.example.demo.service.PlayMovieService;
 import com.example.demo.service.TheaterPlayMovieService;
 import com.example.demo.service.TheaterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,7 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public void GETReservation(Model model) {
+
         log.info("예매 페이지 진입");
     }
 
@@ -53,6 +56,7 @@ public class ReservationController {
         response.put("totalSeats", totalSeats);
         if (!currentSeat.isEmpty()) {
             response.put("currentSeat", currentSeat.get(0).getCurrentSeat());
+            response.put("theaterPlayMovieId", currentSeat.get(0).getTheaterPlayMovieId());
         } else {
             // Handle the case where currentSeat list is empty.
         }

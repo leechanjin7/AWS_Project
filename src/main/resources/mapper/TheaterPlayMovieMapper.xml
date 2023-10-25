@@ -16,4 +16,10 @@
         JOIN tbl_theater T2 ON T1.THEATERID = T2.THEATERID
     </select>
 
+    <update id="updateCurrentSeat">
+        UPDATE tbl_theaterplaymovie
+        SET currentSeat = currentSeat + #{seatChange}
+        WHERE theaterPlayMovieId = #{theaterPlayMovieId}
+    </update>
+
 </mapper>

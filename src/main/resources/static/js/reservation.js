@@ -46,7 +46,7 @@ function setTheater(button) {
 // '영화관 선택' 버튼 클릭 시 실행되는 함수
 function openPopup () {
   const options = 'width=700, height=600, top=50, left=50, scrollbars=yes'
-  var popupWindow = window.open('/movies/rating','_blank',options);
+  var popupWindow = window.open('movies/rating','_blank',options);
 
   // 팝업 창이 닫힐 때 실행될 함수 설정
   var timer = setInterval(function() {
@@ -102,7 +102,7 @@ $('button[data-hidden-value]').click(function() {
     console.log('캘린더 수정 무비', playMovie);
 
     $.ajax({
-        url: '/member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
+        url: 'member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
         type: 'POST',
         contentType : 'application/json',
         data: JSON.stringify ({ 'playMovie': playMovie,
@@ -158,8 +158,9 @@ $(document).ready(function() {
     // 시간 선택 버튼 클릭 시 #txtTime 업데이트
     $("button[name='startTime']").click(function() {
         var selectedTime = $(this).text();
-        var theaterId = $(this).attr('data-hidden-value');
-        $('#txtTime').text(selectedTime + " ~ " + theaterId);
+        var lastTime = $(this).attr('data-hidden-value');
+        $('#txtTime').text(selectedTime + " ~ ");
+        $('#lasTxtTime').text(lastTime);
     });
 });
 
@@ -168,52 +169,56 @@ $('button[data-hidden-value], button[name="startTime"]').click(fetchTheaterPlayM
 $("input[name='publeYear']").change(fetchTheaterPlayMovieId);
 
 function fetchTheaterPlayMovieId() {
-    var theaterId = $('button[data-hidden-value].theater-active').attr('data-hidden-value');
-    var playMovie = localStorage.getItem('selectedMovie');
-    var startDate = $("input[name='publeYear']").val();
-    var startTime = $('button[name="startTime"].startTime-active').text();
+var theaterId = $('button[data-hidden-value].theater-active').attr('data-hidden-value');
+var playMovie = localStorage.getItem('selectedMovie');
+var startDate = $("input[name='publeYear']").val();
+var startTime = $('button[name="startTime"].startTime-active').text();
 
-    console.log('상영관', theaterId);
+console.log('상영관', theaterId);
 
-    $.ajax({
-        url: '/member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
-        type: 'POST',
-        contentType : 'application/json',
-        data: JSON.stringify ({
-            'theaterId': theaterId,
-            'playMovie': playMovie,
-            'startDate': startDate,
-            'startTime': startTime
-        }),
-        success: function(response) {
-            localStorage.setItem('totalSeats', response.totalSeats);
-            localStorage.setItem('currentSeat', response.currentSeat);
-
-             // 현재 좌석 값 업데이트
-            $('#current-seat').text(response.currentSeat);
-
-            // 총 좌석 값 가져오기 및 업데이트
-            $('#total-seats').text(response.totalSeats);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('시트 에러값', textStatus, errorThrown);
-        }
-    });
-}
-
-//결제 API
-function requestPayment() {
-    PortOne.requestPayment({
-        storeId: 'store-81aa1a2d-3dc6-4101-aef0-7ee6967790bc',
-        paymentId: 'paymentId' + new Date().getTime(), // 고유한 결제 ID 생성
-        orderName: movieName,
-        totalAmount: totalAmount,
-        currency: 'CURRENCY_KRW',
-        channelKey: 'channel-key-cf0efb22-a82f-4dc4-8895-44a8f38f0aa8',
-        payMethod: "CARD",
-        customer: {customerId:"홍길동",
-        phoneNumber:"01011111111"}
+$.ajax({
+    url: 'member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
+    type: 'POST',
+    contentType : 'application/json',
+    data: JSON.stringify ({
+        'theaterId': theaterId,
+        'playMovie': playMovie,
+        'startDate': startDate,
+        'startTime': startTime
     }),
+    success: function(response) {
+        localStorage.setItem('totalSeats', response.totalSeats);
+        localStorage.setItem('currentSeat', response.currentSeat);
+        localStorage.setItem('theaterPlayMovieId', response.theaterPlayMovieId);
+
+         // 현재 좌석 값 업데이트
+        $('#current-seat').text(response.currentSeat);
+
+        // 총 좌석 값 가져오기 및 업데이트
+        $('#total-seats').text(response.totalSeats);
+
+        //예약 테이블에서 좌석 조회
+        var theaterPlayMovieId = localStorage.getItem('theaterPlayMovieId');
+
+            $.ajax({
+                url: 'reserve/' + theaterPlayMovieId,
+                type: 'GET',
+                success: function(reservedSeats) {
+                    reservedSeats = reservedSeats[0].split(', ');  // 추가된 코드
+
+                    reservedSeats.forEach(function(seat) {
+                        console.log(seat);
+                        var seatElement = $('.seat[data-hidden-value="' + seat.trim() + '"]');
+                        seatElement.addClass('reserved');
+                        seatElement.css('pointer-events', 'none'); // 클릭 이벤트 핸들러 제거
+                    });
+                }
+            });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log('시트 에러값', textStatus, errorThrown);
+    }
+});
 }
 
 $(document).ready(function(){
@@ -249,14 +254,14 @@ $(document).ready(function(){
             return;
         }
 
-         document.getElementById("seatNumInfo").innerText = totalPeople + "명";
-
          // 총 가격 초기화
          totalTicketPrice = 0;
 
+         document.getElementById("seatNumInfo").innerText = totalPeople;
+
          // 어린이
          $.ajax({
-             url: '/getPrice',
+             url: 'getPrice',
              type: 'post',
              data: JSON.stringify({ age: "어린이", count : children }),
              contentType : 'application/json',
@@ -268,7 +273,7 @@ $(document).ready(function(){
 
           // 청소년
           $.ajax({
-              url:'/getPrice',
+              url:'getPrice',
               type:'post',
               data : JSON.stringify({age:"청소년", count : teen}),
               contentType:'application/json',
@@ -280,7 +285,7 @@ $(document).ready(function(){
 
            // 성인
            $.ajax({
-               url:'/getPrice',
+               url:'getPrice',
                type:'post',
                data : JSON.stringify({age:"성인", count : adult}),
                contentType:'application/json',
@@ -289,11 +294,17 @@ $(document).ready(function(){
                    updatePrice(data.price * adult);
                }
            });
+
       });
 });
 
+function updateSeatNum(num) {
+    $('#seatNum').text(num);
+}
+
 var totalTicketPrice = 0;
 function updatePrice(priceToAdd) {
+
     totalTicketPrice += priceToAdd;
     $(".ticket-price").html(totalTicketPrice.toLocaleString('ko-KR') + "<span>원</span>");
     $("input[name='moviePrice']").val(totalTicketPrice);
@@ -342,3 +353,93 @@ function updateSeatInfo() {
 
     $('#seatInfo').text(selectedSeatValues.join(', '));
 }
+
+function requestPayment() {
+    var orderName = localStorage.getItem('selectedMovie')
+    var totalAmount = totalTicketPrice
+    var today = new Date()
+
+    var userId = $('#userId').val();
+    var theaterId = $('button[data-hidden-value].theater-active').attr('data-hidden-value');
+    var movieName = localStorage.getItem('selectedMovie');
+    var startDate = $("input[name='publeYear']").val();
+    var startTime = $('button[name="startTime"].startTime-active').text();
+    var endTime = $('#lasTxtTime').text();
+    var selectSeat = $('#seatInfo').text();
+    var selectSeatNum = $('#seatNumInfo').text();
+
+    if (!theaterId || !movieName) {
+        alert("상영관 및 영화를 선택해주세요");
+        return;
+    }
+
+    if(!startDate) {
+        alert("날짜를 선택해주세요");
+        return;
+    }
+
+    if(!startTime || !endTime) {
+        alert("상영시간을 선택해주세요");
+        return;
+    }
+
+    if(!selectSeatNum) {
+        alert("인원을 선택해주세요");
+        return;
+    }
+
+    if(!selectSeat) {
+        alert("좌석을 지정해주세요");
+        return;
+    }
+
+PortOne.requestPayment({
+    storeId: 'store-81aa1a2d-3dc6-4101-aef0-7ee6967790bc',
+    paymentId: 'paymentId' + new Date().getTime(), // 고유한 결제 ID 생성
+    orderName: orderName,
+    totalAmount: totalAmount,
+    currency: 'CURRENCY_KRW',
+    channelKey: 'channel-key-cf0efb22-a82f-4dc4-8895-44a8f38f0aa8',
+    payMethod: "CARD",
+    customer: {customerId:"홍길동",
+               phoneNumber:"01011111111"}
+}).then(function (response) {
+    var msg = '결제가 완료되었습니다.';
+    var reserveData = {
+           userId: $('#userId').val(),
+           theaterPlayMovieId: localStorage.getItem('theaterPlayMovieId'),
+           movieName: localStorage.getItem('selectedMovie'),
+           reserveDate: today,
+           startDate: $("input[name='publeYear']").val(),
+           startTime: $('button[name="startTime"].startTime-active').text(),
+           endTime: $('#lasTxtTime').text(),
+           selectSeat: $('#seatInfo').text(),
+           selectSeatNum: $('#seatNumInfo').text(),
+           priceTotal : totalTicketPrice
+        };
+
+    // reserveData의 모든 필드가 존재하는지 확인합니다.
+    for (var key in reserveData) {
+        if (!reserveData[key]) {  // 값이 없다면(즉, undefined, null, 빈 문자열 등이라면)
+            alert(key + " 값이 없습니다. 예약을 진행할 수 없습니다.");
+            return;  // 함수 실행 종료
+        }
+    }
+
+    axios.post("reserve", reserveData)
+    .then(function (serverResponse) {
+      // 서버 응답을 처리하는 코드
+      console.log('서버 응답:', serverResponse);
+      // 여기에서 서버 응답에 따른 추가 작업 수행
+    })
+    .catch(function (error) {
+      // 오류 처리 코드
+      console.error('Axios 요청 오류:', error);
+    });
+  })
+  .catch(function (error) {
+    // 결제 오류 처리 코드
+    console.error('결제 오류:', error);
+  });
+}
+

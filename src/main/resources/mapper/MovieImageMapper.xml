@@ -6,7 +6,7 @@
     <select id="selectImage" resultType="com.example.demo.domain.dto.MovieImageDTO">
         SELECT IMGID, IMGLINK
         FROM tbl_image
-        INNER JOIN tbl_movie ON tbl_image.IMGID = tbl_movie.MOVIEID
+        INNER JOIN TBL_MOVIE ON TBL_IMAGE.IMGID = TBL_MOVIE.MOVIEID
         WHERE tbl_image.IMGID = #{imgId}
     </select>
 
@@ -14,7 +14,7 @@
     <select id="selectRatingImage" resultType="com.example.demo.domain.dto.MovieImageDTO">
         SELECT tbl_image.IMGID, tbl_image.IMGLINK, tbl_movie.MOVIENAME, tbl_movie.MOVIERATING
         FROM tbl_image
-        INNER JOIN tbl_movie ON tbl_image.IMGID = tbl_movie.MOVIEID
+        INNER JOIN TBL_MOVIE ON tbl_image.IMGID = tbl_movie.MOVIEID
         ORDER BY tbl_movie.MOVIERATING DESC
         LIMIT 20
     </select>

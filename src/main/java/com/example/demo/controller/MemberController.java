@@ -102,7 +102,7 @@ public class MemberController {
     public String userInfoUpdate() {
         log.info("회원 정보 수정페이지 진입");
 
-        return "/member/userInfo";
+        return "member/userInfo";
     }
 
     @PostMapping("/userInfo/update")
@@ -120,7 +120,7 @@ public class MemberController {
         memberService.updateUserInfo(memberDTO);
         System.out.println(memberDTO);
 
-        return "/member/userInfo";
+        return "member/userInfo";
     }
 
     @GetMapping("/passCheck")
@@ -153,7 +153,7 @@ public class MemberController {
     public String userInfoDelete() {
         log.info("회원탈퇴 페이지 진입");
 
-        return "/member/userInfo";
+        return "member/userInfo";
     }
 
     @PostMapping("/userInfo/delete")

@@ -12,13 +12,14 @@ public class ReserveDTO {
 
     private int reserveId;
     private String userId;
+    private int theaterPlayMovieId;
     private String movieName;
     private Date reserveDate;
     private Date startDate;
     private Time startTime;
     private Time endTime;
     private String selectSeat;
-    private String selectSeatNum;
+    private int selectSeatNum;
     private int priceTotal;
 
 }

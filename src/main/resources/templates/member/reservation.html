@@ -135,6 +135,7 @@
         <form th:action="@{/member/reservation}" role="form" method="post" th:object="${movieDTO}">
             <h3 class="ticket-title">영화예매</h3>
             <div class="ticket-info-area" th:object="${movieDTO}">
+                <input type="hidden" id="userId" th:value="${#authentication.principal.userId}">
                 <ul class="ticket-info">
                     <li>
                     <span class="ticket-movie-poster">
@@ -149,7 +150,7 @@
                         <div class="ticket-info-date">관람일시</div>
                         <div id="txtDate"></div>
                         <div id="txtTime"></div>
-                        <div id="txtendTime"></div>
+                        <div id="lasTxtTime"></div>
                     <li>
                         <div class="ticket-info-seat">선택좌석</div>
                         <div id="seatInfo" style="margin-bottom:15px"></div>
@@ -511,6 +512,9 @@
 <!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/reservation.js"></script>
+<!-- 포트원 -->
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
 </body>

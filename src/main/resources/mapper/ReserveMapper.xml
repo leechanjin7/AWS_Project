@@ -5,9 +5,14 @@
     <!-- 결제정보 DB 추가 -->
     <insert id="insertReserve" parameterType="com.example.demo.domain.dto.ReserveDTO">
         INSERT INTO tbl_reserve
-        VALUES (#{userId}, #{movieName}, now(),
+        VALUES (#{reserveId}, #{userId}, #{theaterPlayMovieId}, #{movieName}, #{reserveDate},
         #{startDate}, #{startTime}, #{endTime}, #{selectSeat},
         #{selectSeatNum}, #{priceTotal})
     </insert>
+
+    <!-- 영화 시트 조회 -->
+    <select id="getReservedSeats" resultType="string" parameterType="int">
+        SELECT selectSeat FROM tbl_reserve WHERE theaterPlayMovieId = #{theaterPlayMovieId}
+    </select>
 
 </mapper>

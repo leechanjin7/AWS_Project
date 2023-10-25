@@ -17,4 +17,7 @@ public interface TheaterPlayMovieMapper {
     // 총 좌석수 조회
     public List<TheaterPlayMovieDTO> findTotalSeats();
 
+    //좌석 수 감소
+    public int updateCurrentSeat(@Param("theaterPlayMovieId") int theaterPlayMovieId, @Param("seatChange") int seatChange);
+
 }
