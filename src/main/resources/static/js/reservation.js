@@ -128,7 +128,8 @@ $(document).ready(function() {
         // 영화관 이름과 관람일이 모두 선택되었는지 확인
         var theaterName = localStorage.getItem('selectedTheater');
         var publeYear = $("input[name='publeYear']").val();
-
+        console.log("확인확인",theaterName);
+        console.log("확인확인", publeYear);
         if (theaterName && publeYear) {
             // '관람일을 선택해주세요.' 메시지 숨기기
             $('.select-message').hide();
