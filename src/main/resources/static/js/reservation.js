@@ -102,7 +102,7 @@ $('button[data-hidden-value]').click(function() {
     console.log('캘린더 수정 무비', playMovie);
 
     $.ajax({
-        url: 'member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
+        url: '/member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
         type: 'POST',
         contentType : 'application/json',
         data: JSON.stringify ({ 'playMovie': playMovie,
@@ -177,7 +177,7 @@ var startTime = $('button[name="startTime"].startTime-active').text();
 console.log('상영관', theaterId);
 
 $.ajax({
-    url: 'member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
+    url: '/member/reservation',  // 실제 엔드포인트로 변경해야 합니다.
     type: 'POST',
     contentType : 'application/json',
     data: JSON.stringify ({
@@ -201,7 +201,7 @@ $.ajax({
         var theaterPlayMovieId = localStorage.getItem('theaterPlayMovieId');
 
             $.ajax({
-                url: 'reserve/' + theaterPlayMovieId,
+                url: '/reserve/' + theaterPlayMovieId,
                 type: 'GET',
                 success: function(reservedSeats) {
                     reservedSeats = reservedSeats[0].split(', ');  // 추가된 코드
@@ -261,7 +261,7 @@ $(document).ready(function(){
 
          // 어린이
          $.ajax({
-             url: 'getPrice',
+             url: '/getPrice',
              type: 'post',
              data: JSON.stringify({ age: "어린이", count : children }),
              contentType : 'application/json',
@@ -273,7 +273,7 @@ $(document).ready(function(){
 
           // 청소년
           $.ajax({
-              url:'getPrice',
+              url:'/getPrice',
               type:'post',
               data : JSON.stringify({age:"청소년", count : teen}),
               contentType:'application/json',
@@ -285,7 +285,7 @@ $(document).ready(function(){
 
            // 성인
            $.ajax({
-               url:'getPrice',
+               url:'/getPrice',
                type:'post',
                data : JSON.stringify({age:"성인", count : adult}),
                contentType:'application/json',
@@ -426,7 +426,7 @@ PortOne.requestPayment({
         }
     }
 
-    axios.post("reserve", reserveData)
+    axios.post("/reserve", reserveData)
     .then(function (serverResponse) {
       // 서버 응답을 처리하는 코드
       console.log('서버 응답:', serverResponse);
