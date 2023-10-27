@@ -63,13 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(failureHandler)
                     .usernameParameter("userId")
                     .passwordParameter("userPw")
-                    .defaultSuccessUrl("/main")
+                    .defaultSuccessUrl("/index")
                     .permitAll()
                 .and()
 
                 .logout()
                     .logoutUrl("/member/logout")
-                    .logoutSuccessUrl("/main")
+                    .logoutSuccessUrl("/index")
                     .permitAll();
 
         http.csrf().disable();
