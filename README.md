@@ -85,7 +85,7 @@ MovieRatingProject
 
 ##### 사용빌드도구
 - 사용빌드도구 : gradle
-- ViewTemplate : thymeleaf, Jquery, jstl ...
+- ViewTemplate : thymeleaf, Jquery ...
 
 ##### Front-End
 <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
