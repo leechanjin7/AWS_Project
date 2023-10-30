@@ -37,8 +37,8 @@
 						<div style="margin-left : 30px; margin-top : 16px; text-align:center;">
 							검색 수 <span th:text="${totalMovieCount}"></span> 건
 						</div>
-						<span>
-							<a th:href="@{/admintest/addUpdate}">목록업데이트</a>
+						<span style="margin-left:10px;">
+							<a href="#" id="updateLink" style="display: inline-block; padding: 15px;">목록업데이트</a>
 						</span>
                     </div>
 					<div class="table_wrap">
@@ -164,5 +164,25 @@
 					});
 				});
 				</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#updateLink').click(function(e) {
+					e.preventDefault();
+					$.ajax({
+						url: '/admin/addUpdate',
+						type: 'GET',
+						success: function(response) {
+							// 성공 시 처리 로직
+							alert("업데이트 성공!");
+						},
+						error: function(error) {
+							// 에러 시 처리 로직
+							alert("오류가 발생 했습니다! : ", error);
+						}
+					});
+				});
+			});
+		</script>
 </body>
 </html>
