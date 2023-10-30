@@ -99,8 +99,8 @@
 				<!-- Additional required wrapper -->
 				<div class="swiper-wrapper">
 					<!-- Slides -->
-					<li class="swiper-slide" th:each="movie : ${movies}">
-						<a href="">
+					<li class="swiper-slide" th:each="movie : ${movies}" >
+						<a th:href="@{/movielist}">
 							<img th:src="@{'https://image.tmdb.org/t/p/w500' + ${movie.imgLink} }" alt=""><div> <div th:text="${movie.movieName}"></div><div> <span>예매율 : 22%</span> |<span th:text="'별점 :' + ${movie.movieRating}"></span>  </div>    </div>
 						</a>
 					</li>
